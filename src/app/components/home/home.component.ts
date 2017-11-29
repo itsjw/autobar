@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { getLogger } from "../../providers/logger.service"
 
 @Component({
   selector: 'app-home',
@@ -11,6 +12,7 @@ export class HomeComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    getLogger().info("Hello");
   }
 
 }
