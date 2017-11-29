@@ -258,6 +258,7 @@ module.exports = {
     "repl": "require('repl')",
     "stream": "require('stream')",
     "string_decoder": "require('string_decoder')",
+    "typeorm": "require('typeorm')",
     "url": "require('url')",
     "util": "require('util')",
     "winston": "require('winston')",
