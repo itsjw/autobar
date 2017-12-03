@@ -1,3 +1,4 @@
+import { Router } from "@angular/router"
 import { Component, OnInit } from '@angular/core';
 import { LOGGER } from "../../providers/logger.service"
 import { UserService } from "../../providers/user.service";
@@ -19,7 +20,7 @@ export class HomeComponent implements OnInit {
   title = `App works !`;
 
 //  constructor(private userService: UserService) { 
-  constructor(public databaseService: DatabaseService) { 
+  constructor(private router: Router, public databaseService: DatabaseService) { 
     }
 
   async ngOnInit() {
@@ -106,5 +107,9 @@ export class HomeComponent implements OnInit {
     catch (error) {
       LOGGER.info(error);
     }
+  }
+
+  routeToOne(event) {
+    this.router.navigate(['one']);
   }
 }
