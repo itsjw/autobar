@@ -17,11 +17,12 @@ import { Connection } from 'typeorm/connection/Connection';
 })
 
 export class HomeComponent implements OnInit {
-  title = `App works !`;
+  title = `Home !`;
 
 //  constructor(private userService: UserService) { 
   constructor(private router: Router, public databaseService: DatabaseService) { 
-    }
+  
+  }
 
   async ngOnInit() {
     /*

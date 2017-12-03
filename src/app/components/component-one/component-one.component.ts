@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { DatabaseService } from '../../providers/database.service';
 
 @Component({
   selector: 'app-component-one',
@@ -6,10 +8,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./component-one.component.scss']
 })
 export class ComponentOneComponent implements OnInit {
-
-  constructor() { }
-
+  title = `Home !`;
+  
+  //  constructor(private userService: UserService) { 
+    constructor(private router: Router, public databaseService: DatabaseService) { 
+    
+    }
+  
+  
   ngOnInit() {
   }
 
+  routeToHome(event) {
+    this.router.navigate(['home']);
+  }
 }
