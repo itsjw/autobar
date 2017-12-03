@@ -4,7 +4,10 @@ import { UserService } from "../../providers/user.service";
 import { User } from "../../../entity/User";
 import { runDbTest } from "../../providers/postgres.service"
 import { ExceptionInfo } from '_debugger';
-import { createConnection } from "typeorm";
+import { createConnection, getRepository } from "typeorm";
+import { DatabaseService } from "../../providers/database.service"
+import { Repository } from 'typeorm/repository/Repository';
+import { Connection } from 'typeorm/connection/Connection';
 
 @Component({
   selector: 'app-home',
@@ -16,12 +19,11 @@ export class HomeComponent implements OnInit {
   title = `App works !`;
 
 //  constructor(private userService: UserService) { 
-  constructor() { 
+  constructor(public databaseService: DatabaseService) { 
     }
 
   async ngOnInit() {
-    LOGGER.info("Hello Again!");
-
+    /*
     runDbTest();
 
     createConnection({
@@ -48,7 +50,52 @@ export class HomeComponent implements OnInit {
     }).catch(error => {
       LOGGER.info(error);
     });
+    */
+
+    if (!this.databaseService) {
+      LOGGER.info("Database Service is null");
+    }
+    else {
+      LOGGER.info("Database Service has been injected");
+    }
+
+    /*
+    //let userRepository: Repository<User> = this.databaseService.getUserRepository;
+    let userRepository: Repository<User> = this.databaseService.getUserRepository();
     
+    if (!userRepository) {
+      LOGGER.info("User Repository is null");
+    }
+    else {
+      LOGGER.info("Got a User Repository");
+
+      //let user: User = await userRepository.findOneById(User);
+    }
+*/
+    let connection: Connection = await this.databaseService.getConnection();
+    
+    if (!connection) {
+      LOGGER.info("Connection is null");
+    }
+    else {
+      LOGGER.info("Got a Connection");
+
+      let user: User = await connection.getRepository(User).findOneById(1);
+  
+      LOGGER.info(`Hello Again! ${user.firstName} ${user.lastName}`);
+      }
+
+    /*
+      let user: User = await this.databaseService.getUser();
+      if (!user) {
+        LOGGER.info("User is null");
+      }
+      else {
+        LOGGER.info("Got a User");
+  
+        LOGGER.info(`Hello Again! ${user.firstName} ${user.lastName}`);
+      }
+      */
     try {
       //let userService: UserService = new UserService();
 
