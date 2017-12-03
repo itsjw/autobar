@@ -1,5 +1,5 @@
-import { HomeComponent } from './components/home/home.component';
-import { ComponentOneComponent } from './components/component-one/component-one.component';
+import { HomeComponent } from '../components/home/home.component';
+import { ComponentOneComponent } from '../components/component-one/component-one.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
