@@ -5,7 +5,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-
+import { CommonHeaderComponent } from './components/common-header/common-header.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ChartsModule } from 'ng2-charts';
+import { ProfileSettingComponent } from './components/profile-setting/profile-setting.component';
+import { DaterangepickerDirective } from './components/date-picket.directive';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 
@@ -15,17 +19,22 @@ import { ElectronService } from './providers/electron.service';
 import { DatabaseService } from './providers/database.service';
 import { ComponentOneComponent } from './components/component-one/component-one.component';
 
+import { MainAdminComponent } from './components/main-admin/main-admin.component'
+
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    ComponentOneComponent
+    ComponentOneComponent,
+    MainAdminComponent, 
+    CommonHeaderComponent, DashboardComponent, ProfileSettingComponent, DaterangepickerDirective
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ChartsModule
   ],
   providers: [ElectronService, DatabaseService],
   bootstrap: [AppComponent]
