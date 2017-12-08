@@ -11,24 +11,28 @@ import { User } from '../../../entity/User';
   styleUrls: ['./component-two.component.scss']
 })
 export class ComponentTwoComponent implements OnInit {
-  title = `Home !`;
-  
+  title = `Component Two`;
+
+  users: User[] = [];
+
   //  constructor(private userService: UserService) { 
-    constructor(private router: Router, public databaseService: DatabaseService) { 
-    
-    }
-  
-  
+  constructor(private router: Router, public databaseService: DatabaseService) {
+
+  }
+
+
   async ngOnInit() {
     try {
-      let user: User = await getRepository(User).findOneById(1);
+      this.users = await getRepository(User).find();
 
-      LOGGER.info(`User Name in Component One: ${user.firstName} ${user.lastName}`);
+      for (var user of this.users) {
+        LOGGER.info(`User Name in Component Two: ${user.id} ${user.firstName} ${user.lastName}`);
       }
-      catch (error) {
-        LOGGER.info(error);
-      }
-}
+    }
+    catch (error) {
+      LOGGER.info(error);
+    }
+  }
 
   routeToHome(event) {
     this.router.navigate(['home']);
