@@ -12,7 +12,6 @@ export class DatabaseService implements OnInit {
   constructor() {
     LOGGER.info("Service Constructor Called");
 
-    /*
     createConnection({
       "type": "postgres",
       "host": "localhost",
@@ -25,15 +24,18 @@ export class DatabaseService implements OnInit {
          entities: [
           User
       ],
-    }).then(connection1 => {
-      this.connection = connection1;
+    }).then(connection => {
+      this.connection = connection;
     }).catch(error => {
       LOGGER.info(error);
     }).then(x => {
-
-     LOGGER.info("Checking Connection")
+      if (this.connection) { 
+        LOGGER.info("Created Connection");
+      }
+      else {
+        LOGGER.info("NULL Connection");
+      }
     });
-    */
   }
 
   ngOnInit() {

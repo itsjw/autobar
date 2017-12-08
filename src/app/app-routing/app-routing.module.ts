@@ -1,5 +1,6 @@
 import { HomeComponent } from '../components/home/home.component';
 import { ComponentOneComponent } from '../components/component-one/component-one.component';
+import { ComponentTwoComponent } from '../components/component-two/component-two.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MainAdminComponent } from '../components/main-admin/main-admin.component'
@@ -8,10 +9,6 @@ import {DashboardComponent} from '../components/dashboard/dashboard.component'
 import {ProfileSettingComponent} from '../components/profile-setting/profile-setting.component'
 
 const routes: Routes = [
-    //{ path: '', redirectTo: 'home', pathMatch: 'full' },
-    //{ path: 'home', component: HomeComponent },
-    //{ path: 'one', component: ComponentOneComponent },
-    //{ path: '**', component: HomeComponent},
     {
         path:'',
         pathMatch:'full',
@@ -22,13 +19,21 @@ const routes: Routes = [
         component: DashboardComponent,
     },
     {
+        path:'profile-setting',
+        component:ProfileSettingComponent
+    },
+    { 
+        path: 'component-one',
+        component: ComponentOneComponent 
+    },
+    { 
+        path: 'component-two',
+        component: ComponentTwoComponent 
+    },
+    {
         path: 'main-admin',
         component: MainAdminComponent,
     },
-    {
-        path:'profile-setting',
-        component:ProfileSettingComponent
-    }
 ];
 
 @NgModule({

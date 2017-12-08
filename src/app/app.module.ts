@@ -18,6 +18,7 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 import { ElectronService } from './providers/electron.service';
 import { DatabaseService } from './providers/database.service';
 import { ComponentOneComponent } from './components/component-one/component-one.component';
+import { ComponentTwoComponent } from './components/component-two/component-two.component';
 
 import { MainAdminComponent } from './components/main-admin/main-admin.component'
 
@@ -26,6 +27,7 @@ import { MainAdminComponent } from './components/main-admin/main-admin.component
     AppComponent,
     HomeComponent,
     ComponentOneComponent,
+    ComponentTwoComponent,
     MainAdminComponent, 
     CommonHeaderComponent, DashboardComponent, ProfileSettingComponent, DaterangepickerDirective
   ],
