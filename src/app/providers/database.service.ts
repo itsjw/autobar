@@ -3,6 +3,10 @@ import { createConnection, Connection} from "typeorm";
 import { User } from "../../entity/User"
 import { Repository } from 'typeorm/repository/Repository';
 import { LOGGER } from "../providers/logger.service"
+import { Spreadsheet } from 'entity/Spreadsheet';
+import { Col } from '../../entity/Col';
+import { Row } from '../../entity/Row';
+import { ColRow } from '../../entity/ColRow';
 
 @Injectable()
 export class DatabaseService implements OnInit {
@@ -22,7 +26,7 @@ export class DatabaseService implements OnInit {
       "synchronize": true,
       "logging": false,
          entities: [
-          User
+          User, Spreadsheet, Row, Col, ColRow
       ],
     }).then(connection => {
       this.connection = connection;

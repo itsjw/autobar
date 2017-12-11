@@ -11,7 +11,7 @@ import { User } from '../../../entity/User';
   styleUrls: ['./component-three.component.scss']
 })
 export class ComponentThreeComponent implements OnInit {
-  title = `Component Two`;
+  title = `Component Three`;
 
   users: User[] = [];
 

@@ -19,6 +19,7 @@ import { ElectronService } from './providers/electron.service';
 import { DatabaseService } from './providers/database.service';
 import { ComponentOneComponent } from './components/component-one/component-one.component';
 import { ComponentTwoComponent } from './components/component-two/component-two.component';
+import { ComponentThreeComponent } from './components/component-three/component-three.component';
 
 import { MainAdminComponent } from './components/main-admin/main-admin.component'
 
@@ -28,6 +29,7 @@ import { MainAdminComponent } from './components/main-admin/main-admin.component
     HomeComponent,
     ComponentOneComponent,
     ComponentTwoComponent,
+    ComponentThreeComponent,
     MainAdminComponent, 
     CommonHeaderComponent, DashboardComponent, ProfileSettingComponent, DaterangepickerDirective
   ],
