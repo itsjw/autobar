@@ -3,46 +3,25 @@
     <table class="table is-bordered is-striped is-narrow">
       <thead>
         <tr>
-          <th>
-            <p class="has-text-centered">ID
+          <th *ngFor="let col of cols">
+            <p class="has-text-centered">{{col.name}}
               <i class="fa fa-user-circle" aria-hidden="true"></i>
             </p>
-          </th>
-          <th>
-            <p class="has-text-centered">First Name</p>
-          </th>
-          <th>
-            <p class="has-text-centered">Last Name</p>
-          </th>
-          <th>
-            <p class="has-text-centered">Age</p>
           </th>
         </tr>
       </thead>
       <tfoot>
         <tr>
-          <th>
-            <p class="has-text-centered">ID
+          <th *ngFor="let col of cols">
+            <p class="has-text-centered">{{col.name}}
               <i class="fa fa-user-circle" aria-hidden="true"></i>
             </p>
-          </th>
-          <th>
-            <p class="has-text-centered">First Name</p>
-          </th>
-          <th>
-            <p class="has-text-centered">Last Name</p>
-          </th>
-          <th>
-            <p class="has-text-centered">Age</p>
           </th>
         </tr>
       </tfoot>
       <tbody>
-        <tr *ngFor="let user of users">
-          <td>{{user.id}}</td>
-          <td>{{user.firstName}}</td>
-          <td>{{user.lastName}}</td>
-          <td>{{user.age}}</td>
+        <tr *ngFor="let row of spreadsheet.rows; index as i">
+          <td *ngFor="let colRow of row.colRows">{{colRow.value}}</td>
         </tr>
       </tbody>
     </table>

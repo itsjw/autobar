@@ -4,7 +4,8 @@ import { LOGGER } from '../../providers/logger.service';
 import { DatabaseService } from '../../providers/database.service';
 import { getRepository } from 'typeorm';
 import { User } from '../../../entity/User';
-import { Spreadsheet } from 'entity/Spreadsheet';
+import { Spreadsheet } from '../../../entity/Spreadsheet';
+import { Col } from '../../../entity/Col';
 
 @Component({
   selector: 'app-component-three',
@@ -17,6 +18,10 @@ export class ComponentThreeComponent implements OnInit {
   users: User[] = [];
 
   spreadsheets: Spreadsheet[] = [];
+
+  spreadsheet: Spreadsheet;
+
+  cols: Col[] = [];
 
   //  constructor(private userService: UserService) { 
   constructor(private router: Router, public databaseService: DatabaseService) {
@@ -44,6 +49,8 @@ export class ComponentThreeComponent implements OnInit {
       .leftJoinAndSelect("colRow.col", "col")
       .getMany();
 
+      this.spreadsheet = this.spreadsheets[0];
+
       for (var spreadsheet of this.spreadsheets) {
         LOGGER.info(`Spreadsheet: ${spreadsheet.name}`);
         for (var row of spreadsheet.rows) {
@@ -53,6 +60,8 @@ export class ComponentThreeComponent implements OnInit {
           }
         }
       }
+
+      this.cols = await getRepository(Col).find();
     }
     catch (error) {
       LOGGER.info(error);
