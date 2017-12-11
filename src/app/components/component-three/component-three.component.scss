@@ -1,0 +1,9 @@
+$headerHeight: 100px;
+
+.component-three  {
+    &__right {
+        margin: 1rem 1rem;
+    }
+    min-height: calc( 100vh - $headerHeight);
+}
+
