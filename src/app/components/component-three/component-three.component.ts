@@ -6,6 +6,7 @@ import { getRepository } from 'typeorm';
 import { User } from '../../../entity/User';
 import { Spreadsheet } from '../../../entity/Spreadsheet';
 import { Col } from '../../../entity/Col';
+import { ColRow } from 'entity/ColRow';
 
 @Component({
   selector: 'app-component-three',
@@ -70,5 +71,47 @@ export class ComponentThreeComponent implements OnInit {
 
   routeToHome(event) {
     this.router.navigate(['home']);
+  }
+
+  async save(event) {
+    try {
+      await getRepository(Spreadsheet).save(this.spreadsheet);
+    }
+    catch (error) {
+      LOGGER.info(error);
+    }
+  }
+
+  async addColumn(event) {
+    try {
+      let col: Col = new Col();
+      
+      col.name = `Col ${this.cols.length}`;
+      col.description = `Col ${this.cols.length} Description`;
+
+      for (var row of this.spreadsheet.rows) {
+        let colRow: ColRow = new ColRow();
+
+        colRow.col = col;
+        colRow.row = row;
+        colRow.value = 0;
+
+        row.colRows.push(colRow)
+      }
+
+      await getRepository(Spreadsheet).save(this.spreadsheet);
+    }
+    catch (error) {
+      LOGGER.info(error);
+    }
+  }
+
+  async addRow(event) {
+    try {
+      await getRepository(Spreadsheet).save(this.spreadsheet);
+    }
+    catch (error) {
+      LOGGER.info(error);
+    }
   }
 }

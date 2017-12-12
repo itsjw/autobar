@@ -12,7 +12,10 @@ export class ColRow {
     @Column()
     value: number;
 
-    @ManyToOne(type => Col, col => col.colRows)
+    @ManyToOne(type => Col, col => col.colRows, {
+        cascadeInsert: true,
+        cascadeUpdate: true,
+    })
     col: Col;
 
     @ManyToOne(type => Row, row => row.colRows)

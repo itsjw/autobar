@@ -17,6 +17,9 @@ export class Row {
     @ManyToOne(type => Spreadsheet, spreadsheet => spreadsheet.rows)
     spreadsheet: Spreadsheet;
 
-    @OneToMany(type => ColRow, colRow => colRow.row)
+    @OneToMany(type => ColRow, colRow => colRow.row, {
+        cascadeInsert: true,
+        cascadeUpdate: true,
+    })
     colRows: ColRow[];
 }

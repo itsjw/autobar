@@ -13,6 +13,9 @@ export class Spreadsheet {
     @Column()
     description: string;
 
-    @OneToMany(type => Row, row => row.spreadsheet) // note: we will create author property in the Photo class below
+    @OneToMany(type => Row, row => row.spreadsheet, {
+        cascadeInsert: true,
+        cascadeUpdate: true,
+    }) 
     rows: Row[];
 }

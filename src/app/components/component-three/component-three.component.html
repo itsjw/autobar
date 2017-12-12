@@ -1,29 +1,58 @@
 <section class="section component-three">
   <div class="container">
-    <table class="table is-bordered is-striped is-narrow">
-      <thead>
-        <tr>
-          <th *ngFor="let col of cols">
-            <p class="has-text-centered">{{col.name}}
-              <i class="fa fa-user-circle" aria-hidden="true"></i>
-            </p>
-          </th>
-        </tr>
-      </thead>
-      <tfoot>
-        <tr>
-          <th *ngFor="let col of cols">
-            <p class="has-text-centered">{{col.name}}
-              <i class="fa fa-user-circle" aria-hidden="true"></i>
-            </p>
-          </th>
-        </tr>
-      </tfoot>
-      <tbody>
-        <tr *ngFor="let row of spreadsheet.rows; index as i">
-          <td *ngFor="let colRow of row.colRows">{{colRow.value}}</td>
-        </tr>
-      </tbody>
-    </table>
+    <nav class="panel">
+      <p class="panel-heading">
+        {{spreadsheet.name}}
+      </p>
+
+      <div class="panel-block">
+        <button class="button is-link" (click)="addColumn()">
+          add column
+        </button>
+        <button class="button is-link" (click)="addRow()">
+          add row
+        </button>
+      </div>
+
+      <div class="panel-block">
+        <table class="table is-bordered is-striped is-narrow">
+          <thead>
+            <tr>
+              <th *ngFor="let col of cols">
+                <p class="has-text-centered">{{col.name}}
+                  <i class="fa fa-user-circle" aria-hidden="true"></i>
+                </p>
+              </th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th *ngFor="let col of cols">
+                <p class="has-text-centered">{{col.name}}
+                  <i class="fa fa-user-circle" aria-hidden="true"></i>
+                </p>
+              </th>
+            </tr>
+          </tfoot>
+          <tbody>
+            <tr *ngFor="let row of spreadsheet.rows; index as i">
+              <td>
+                <span class="has-text-left has-text-weight-bold">{{row.name}}</span>
+              </td>
+              <td *ngFor="let colRow of row.colRows">
+                <span class="has-text-right">
+                  <input [(ngModel)]="colRow.value">
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel-block">
+        <button class="button is-link" (click)="save()">
+          save
+        </button>
+      </div>
+    </nav>
   </div>
 </section>
