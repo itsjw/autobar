@@ -13,6 +13,9 @@ export class Col {
     @Column()
     description: string;
 
+    @Column()
+    sortOrder: number;
+
     @OneToMany(type => ColRow, colRow => colRow.row)
     colRows: ColRow[];
 }

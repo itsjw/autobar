@@ -18,6 +18,7 @@
         <table class="table is-bordered is-striped is-narrow">
           <thead>
             <tr>
+              <th></th>
               <th *ngFor="let col of cols">
                 <p class="has-text-centered">{{col.name}}
                   <i class="fa fa-user-circle" aria-hidden="true"></i>
@@ -27,7 +28,8 @@
           </thead>
           <tfoot>
             <tr>
-              <th *ngFor="let col of cols">
+                <th></th>
+                <th *ngFor="let col of cols">
                 <p class="has-text-centered">{{col.name}}
                   <i class="fa fa-user-circle" aria-hidden="true"></i>
                 </p>

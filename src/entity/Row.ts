@@ -14,6 +14,9 @@ export class Row {
     @Column()
     description: string;
 
+    @Column()
+    sortOrder: number;
+
     @ManyToOne(type => Spreadsheet, spreadsheet => spreadsheet.rows)
     spreadsheet: Spreadsheet;
 

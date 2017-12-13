@@ -9,7 +9,7 @@ export class ColRow {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column("numeric")
     value: number;
 
     @ManyToOne(type => Col, col => col.colRows, {

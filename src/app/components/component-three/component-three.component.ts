@@ -5,8 +5,9 @@ import { DatabaseService } from '../../providers/database.service';
 import { getRepository } from 'typeorm';
 import { User } from '../../../entity/User';
 import { Spreadsheet } from '../../../entity/Spreadsheet';
+import { Row } from '../../../entity/Row';
 import { Col } from '../../../entity/Col';
-import { ColRow } from 'entity/ColRow';
+import { ColRow } from '../../../entity/ColRow';
 
 @Component({
   selector: 'app-component-three',
@@ -48,10 +49,17 @@ export class ComponentThreeComponent implements OnInit {
       .leftJoinAndSelect("spreadsheet.rows", "row")
       .leftJoinAndSelect("row.colRows", "colRow")
       .leftJoinAndSelect("colRow.col", "col")
+      //.orderBy("row.sortOrder", "ASC")
       .getMany();
 
       this.spreadsheet = this.spreadsheets[0];
 
+      this.spreadsheet.rows.sort((a, b) => a.sortOrder < b.sortOrder ? -1 : a.sortOrder > b.sortOrder ? 1 : 0)
+
+      for (var row of this.spreadsheet.rows) {
+        row.colRows.sort((a, b) => a.col.sortOrder < b.col.sortOrder ? -1 : a.col.sortOrder > b.col.sortOrder ? 1 : 0)
+      }
+      
       for (var spreadsheet of this.spreadsheets) {
         LOGGER.info(`Spreadsheet: ${spreadsheet.name}`);
         for (var row of spreadsheet.rows) {
@@ -63,6 +71,8 @@ export class ComponentThreeComponent implements OnInit {
       }
 
       this.cols = await getRepository(Col).find();
+
+      this.cols.sort((a, b) => a.sortOrder < b.sortOrder ? -1 : a.sortOrder > b.sortOrder ? 1 : 0)
     }
     catch (error) {
       LOGGER.info(error);
@@ -86,8 +96,11 @@ export class ComponentThreeComponent implements OnInit {
     try {
       let col: Col = new Col();
       
-      col.name = `Col ${this.cols.length}`;
-      col.description = `Col ${this.cols.length} Description`;
+      col.name = `Col ${this.cols.length+1}`;
+      col.description = `Col ${this.cols.length+1} Description`;
+      col.sortOrder = this.cols.length;
+
+      this.cols.push(col);
 
       for (var row of this.spreadsheet.rows) {
         let colRow: ColRow = new ColRow();
@@ -108,6 +121,25 @@ export class ComponentThreeComponent implements OnInit {
 
   async addRow(event) {
     try {
+      let row: Row = new Row();
+
+      row.name = `Row ${this.spreadsheet.rows.length+1}`;
+      row.description = `Row ${this.spreadsheet.rows.length+1} Description`;
+      row.sortOrder = this.spreadsheet.rows.length;
+      row.colRows = [];
+
+      this.spreadsheet.rows.push(row);
+
+      for (var col of this.cols) {
+        let colRow: ColRow = new ColRow();
+
+        colRow.col = col;
+        colRow.row = row;
+        colRow.value = 0;
+
+        row.colRows.push(colRow);
+      }
+
       await getRepository(Spreadsheet).save(this.spreadsheet);
     }
     catch (error) {
