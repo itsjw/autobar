@@ -22,8 +22,6 @@ import { ComponentTwoComponent } from './components/component-two/component-two.
 import { ComponentThreeComponent } from './components/component-three/component-three.component';
 
 import { MainAdminComponent } from './components/main-admin/main-admin.component'
-import { ComponentDialogComponent } from 'app/components/component-dialog/component-dialog.component';
-import { MatDialogModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -32,7 +30,6 @@ import { MatDialogModule } from '@angular/material';
     ComponentOneComponent,
     ComponentTwoComponent,
     ComponentThreeComponent,
-    ComponentDialogComponent,
     MainAdminComponent, 
     CommonHeaderComponent, DashboardComponent, ProfileSettingComponent, DaterangepickerDirective
   ],
@@ -42,10 +39,8 @@ import { MatDialogModule } from '@angular/material';
     HttpModule,
     AppRoutingModule,
     ChartsModule,
-    MatDialogModule
   ],
   providers: [ElectronService, DatabaseService],
   bootstrap: [AppComponent],
-  entryComponents: [ComponentDialogComponent]
 })
 export class AppModule { }
