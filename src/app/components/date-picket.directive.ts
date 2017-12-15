@@ -1,7 +1,7 @@
 import { Directive } from '@angular/core';
 import {Component, AfterViewInit, ElementRef,Renderer2} from '@angular/core';
-import * as $ from 'jquery';
-import '../../../node_modules/bootstrap-daterangepicker';
+//import * as $ from 'jquery';
+//import '../../../node_modules/bootstrap-daterangepicker';
 @Directive({
   selector: "[daterangepicker]"
  })
