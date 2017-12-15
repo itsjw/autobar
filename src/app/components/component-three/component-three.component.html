@@ -2,7 +2,7 @@
   <div class="container">
     <nav class="panel">
       <p class="panel-heading">
-        {{spreadsheet.name}}
+        {{(spreadsheet||{}).name}}
       </p>
 
       <div class="panel-block">
@@ -19,8 +19,8 @@
               </button>
             </div>
             <div class="column">
-              <button class="button is-link" (click)="dialog()">
-                dialog
+              <button class="button is-link" (click)="openModal();">
+                open modal
               </button>
             </div>
             <div class="column">
@@ -53,7 +53,7 @@
             </tr>
           </tfoot>
           <tbody>
-            <tr *ngFor="let row of spreadsheet.rows; index as i">
+            <tr *ngFor="let row of (spreadsheet||{}).rows; index as i">
               <td>
                 <span class="has-text-left has-text-weight-bold">{{row.name}}</span>
               </td>
@@ -67,10 +67,22 @@
         </table>
       </div>
       <div class="panel-block">
-        <button class="button is-link" (click)="save()">
+        <button id="spreadsheet-save-button" class="button is-link" (click)="save()">
           save
         </button>
       </div>
     </nav>
   </div>
 </section>
+<modal id="custom-modal-1">
+  <div id="custom-modal-1-div" class="modal">
+      <div class="modal-body">
+          <h1>A Custom Modal!</h1>
+          <p>
+              Home page text
+          </p>
+          <button (click)="closeModal();">Close</button>
+      </div>
+  </div>
+  <div class="modal-background"></div>
+</modal>

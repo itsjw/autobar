@@ -10,6 +10,7 @@ import '../../../node_modules/bootstrap-daterangepicker';
    
   }
   ngAfterViewInit() {
+    /*
     $('input[name="birthdate"]').daterangepicker({
       singleDatePicker: true,
       showDropdowns: true
@@ -18,5 +19,6 @@ import '../../../node_modules/bootstrap-daterangepicker';
         alert("You are " + start + " years old.");
       }
     )
+    */
   }
  }

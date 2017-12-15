@@ -9,6 +9,8 @@ import { Row } from '../../../entity/Row';
 import { Col } from '../../../entity/Col';
 import { ColRow } from '../../../entity/ColRow';
 
+import { ModalService } from '../../_services/index';
+
 @Component({
   selector: 'app-component-three',
   templateUrl: './component-three.component.html',
@@ -26,18 +28,20 @@ export class ComponentThreeComponent implements OnInit {
   cols: Col[] = [];
 
   //  constructor(private userService: UserService) { 
-  constructor(private router: Router, public databaseService: DatabaseService) {
+  constructor(private router: Router, public databaseService: DatabaseService, private modalService: ModalService) {
 
   }
 
 
   async ngOnInit() {
     try {
+      /*
       this.users = await getRepository(User).find();
 
       for (var user of this.users) {
         LOGGER.info(`User Name in Component Three: ${user.id} ${user.firstName} ${user.lastName}`);
       }
+      */
     }
     catch (error) {
       LOGGER.info(error);
@@ -145,5 +149,13 @@ export class ComponentThreeComponent implements OnInit {
     catch (error) {
       LOGGER.info(error);
     }
+  }
+
+  openModal() {
+    this.modalService.open('custom-modal-1');
+  }
+
+  closeModal() {
+    this.modalService.close('custom-modal-1');
   }
 }
