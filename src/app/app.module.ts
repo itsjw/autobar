@@ -23,9 +23,6 @@ import { ComponentThreeComponent } from './components/component-three/component-
 
 import { MainAdminComponent } from './components/main-admin/main-admin.component'
 
-import { ModalComponent } from './_directives/index';
-import { ModalService } from './_services/index';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +30,7 @@ import { ModalService } from './_services/index';
     ComponentOneComponent,
     ComponentTwoComponent,
     ComponentThreeComponent,
-    MainAdminComponent, ModalComponent,
+    MainAdminComponent,
     CommonHeaderComponent, DashboardComponent, ProfileSettingComponent, DaterangepickerDirective
   ],
   imports: [
@@ -43,7 +40,7 @@ import { ModalService } from './_services/index';
     AppRoutingModule,
     ChartsModule,
   ],
-  providers: [ElectronService, DatabaseService, ModalService],
+  providers: [ElectronService, DatabaseService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
