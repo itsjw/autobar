@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { LOGGER } from '../../providers/logger.service';
 import { DatabaseService } from '../../providers/database.service';
 import { getRepository } from 'typeorm';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ComponentDialogComponent } from '../component-dialog/component-dialog.component'
 import { User } from '../../../entity/User';
 import { Spreadsheet } from '../../../entity/Spreadsheet';
 import { Row } from '../../../entity/Row';
@@ -26,7 +28,7 @@ export class ComponentThreeComponent implements OnInit {
   cols: Col[] = [];
 
   //  constructor(private userService: UserService) { 
-  constructor(private router: Router, public databaseService: DatabaseService) {
+  constructor(private router: Router, public databaseService: DatabaseService, private modalService: NgbModal) {
 
   }
 
@@ -150,7 +152,8 @@ export class ComponentThreeComponent implements OnInit {
   }
 
   openModal() {
-
+    const modalRef = this.modalService.open(ComponentDialogComponent);
+    modalRef.componentInstance.name = 'World';
   }
 
   closeModal() {

@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonHeaderComponent } from './components/common-header/common-header.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ChartsModule } from 'ng2-charts';
@@ -22,6 +23,7 @@ import { ComponentTwoComponent } from './components/component-two/component-two.
 import { ComponentThreeComponent } from './components/component-three/component-three.component';
 
 import { MainAdminComponent } from './components/main-admin/main-admin.component'
+import { ComponentDialogComponent } from 'app/components/component-dialog/component-dialog.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,7 @@ import { MainAdminComponent } from './components/main-admin/main-admin.component
     ComponentOneComponent,
     ComponentTwoComponent,
     ComponentThreeComponent,
-    MainAdminComponent,
+    MainAdminComponent, ComponentDialogComponent,
     CommonHeaderComponent, DashboardComponent, ProfileSettingComponent, DaterangepickerDirective
   ],
   imports: [
@@ -38,9 +40,11 @@ import { MainAdminComponent } from './components/main-admin/main-admin.component
     FormsModule,
     HttpModule,
     AppRoutingModule,
+    NgbModule.forRoot(),
     ChartsModule,
   ],
   providers: [ElectronService, DatabaseService],
+  entryComponents: [ComponentDialogComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
