@@ -8,13 +8,13 @@ export class Col {
     id: number;
 
     @Column()
-    name: string;
+    name: string = '';
 
     @Column()
-    description: string;
+    description: string = '';
 
     @Column()
-    sortOrder: number;
+    sortOrder: number = 0;
 
     @OneToMany(type => ColRow, colRow => colRow.row)
     colRows: ColRow[];

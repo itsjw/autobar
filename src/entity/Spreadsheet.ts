@@ -8,14 +8,14 @@ export class Spreadsheet {
     id: number;
 
     @Column()
-    name: string;
+    name: string = '';
 
     @Column()
-    description: string;
+    description: string = '';
 
     @OneToMany(type => Row, row => row.spreadsheet, {
         cascadeInsert: true,
         cascadeUpdate: true,
     }) 
-    rows: Row[];
+    rows: Row[] = [];
 }

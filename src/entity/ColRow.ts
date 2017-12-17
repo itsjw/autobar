@@ -10,7 +10,7 @@ export class ColRow {
     id: number;
 
     @Column("numeric")
-    value: number;
+    value: number = 0;
 
     @ManyToOne(type => Col, col => col.colRows, {
         cascadeInsert: true,

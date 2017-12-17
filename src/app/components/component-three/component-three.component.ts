@@ -24,8 +24,6 @@ export class ComponentThreeComponent implements OnInit {
 
   spreadsheets: Spreadsheet[] = [];
 
-  spreadsheet: Spreadsheet;
-
   cols: Col[] = [];
 
   //  constructor(private userService: UserService) { 
@@ -57,13 +55,7 @@ export class ComponentThreeComponent implements OnInit {
         //.orderBy("row.sortOrder", "ASC")
         .getMany();
 
-      this.spreadsheet = this.spreadsheets[0];
-
-      this.spreadsheet.rows.sort((a, b) => a.sortOrder < b.sortOrder ? -1 : a.sortOrder > b.sortOrder ? 1 : 0)
-
-      for (var row of this.spreadsheet.rows) {
-        row.colRows.sort((a, b) => a.col.sortOrder < b.col.sortOrder ? -1 : a.col.sortOrder > b.col.sortOrder ? 1 : 0)
-      }
+      //      this.spreadsheet = this.spreadsheets[0];
 
       for (var spreadsheet of this.spreadsheets) {
         LOGGER.info(`Spreadsheet: ${spreadsheet.name}`);
@@ -72,6 +64,12 @@ export class ComponentThreeComponent implements OnInit {
           for (var colRow of row.colRows) {
             LOGGER.info(`Col: ${colRow.col.name} ${colRow.value}`);
           }
+        }
+
+        spreadsheet.rows.sort((a, b) => a.sortOrder < b.sortOrder ? -1 : a.sortOrder > b.sortOrder ? 1 : 0)
+
+        for (var row of spreadsheet.rows) {
+          row.colRows.sort((a, b) => a.col.sortOrder < b.col.sortOrder ? -1 : a.col.sortOrder > b.col.sortOrder ? 1 : 0)
         }
       }
 
@@ -88,16 +86,16 @@ export class ComponentThreeComponent implements OnInit {
     this.router.navigate(['home']);
   }
 
-  async save(event) {
+  async save(spreadsheet_index: number) {
     try {
-      await getRepository(Spreadsheet).save(this.spreadsheet);
+      await getRepository(Spreadsheet).save(this.spreadsheets[spreadsheet_index]);
     }
     catch (error) {
       LOGGER.info(error);
     }
   }
 
-  async addColumn(name: string) {
+  async addColumn(spreadsheet_index: number, name: string) {
     try {
       let col: Col = new Col();
 
@@ -107,7 +105,7 @@ export class ComponentThreeComponent implements OnInit {
 
       this.cols.push(col);
 
-      for (var row of this.spreadsheet.rows) {
+      for (var row of this.spreadsheets[spreadsheet_index].rows) {
         let colRow: ColRow = new ColRow();
 
         colRow.col = col;
@@ -117,23 +115,23 @@ export class ComponentThreeComponent implements OnInit {
         row.colRows.push(colRow)
       }
 
-      await getRepository(Spreadsheet).save(this.spreadsheet);
+      await getRepository(Spreadsheet).save(this.spreadsheets[spreadsheet_index]);
     }
     catch (error) {
       LOGGER.info(error);
     }
   }
 
-  async addRow(name: string) {
+  async addRow(spreadsheet_index: number, name: string) {
     try {
       let row: Row = new Row();
 
       row.name = name;
       row.description = `Row ${name} Description`;
-      row.sortOrder = this.spreadsheet.rows.length;
+      row.sortOrder = this.spreadsheets[spreadsheet_index].rows.length;
       row.colRows = [];
 
-      this.spreadsheet.rows.push(row);
+      this.spreadsheets[spreadsheet_index].rows.push(row);
 
       for (var col of this.cols) {
         let colRow: ColRow = new ColRow();
@@ -145,30 +143,30 @@ export class ComponentThreeComponent implements OnInit {
         row.colRows.push(colRow);
       }
 
-      await getRepository(Spreadsheet).save(this.spreadsheet);
+      await getRepository(Spreadsheet).save(this.spreadsheets[spreadsheet_index]);
     }
     catch (error) {
       LOGGER.info(error);
     }
   }
 
-  addRowModal() {
+  addRowModal(spreadsheet_index: number) {
     const modalRef = this.modalService.open(NameDialogComponent)
     modalRef.componentInstance.title = 'Add Row';
 
     modalRef.result.then((result) => {
-      this.addRow(result);
+      this.addRow(spreadsheet_index, result);
     }, (reason) => {
       console.log('Dismissed!!');
     });
   }
 
-  addColumnModal() {
+  addColumnModal(spreadsheet_index: number) {
     const modalRef = this.modalService.open(NameDialogComponent)
     modalRef.componentInstance.title = 'Add Column';
 
     modalRef.result.then((result) => {
-      this.addColumn(result);
+      this.addColumn(spreadsheet_index, result);
     }, (reason) => {
       console.log('Dismissed!!');
     });

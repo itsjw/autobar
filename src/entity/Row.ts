@@ -9,13 +9,13 @@ export class Row {
     id: number;
 
     @Column()
-    name: string;
+    name: string = '';
 
     @Column()
-    description: string;
+    description: string = '';
 
     @Column()
-    sortOrder: number;
+    sortOrder: number = 0;
 
     @ManyToOne(type => Spreadsheet, spreadsheet => spreadsheet.rows)
     spreadsheet: Spreadsheet;
