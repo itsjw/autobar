@@ -24,6 +24,7 @@ import { ComponentThreeComponent } from './components/component-three/component-
 
 import { MainAdminComponent } from './components/main-admin/main-admin.component'
 import { ComponentDialogComponent } from 'app/components/component-dialog/component-dialog.component';
+import { NameDialogComponent } from 'app/components/name-dialog/name-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { ComponentDialogComponent } from 'app/components/component-dialog/compon
     ComponentOneComponent,
     ComponentTwoComponent,
     ComponentThreeComponent,
-    MainAdminComponent, ComponentDialogComponent,
+    MainAdminComponent, ComponentDialogComponent, NameDialogComponent,
     CommonHeaderComponent, DashboardComponent, ProfileSettingComponent, DaterangepickerDirective
   ],
   imports: [
@@ -44,7 +45,7 @@ import { ComponentDialogComponent } from 'app/components/component-dialog/compon
     ChartsModule,
   ],
   providers: [ElectronService, DatabaseService],
-  entryComponents: [ComponentDialogComponent],
+  entryComponents: [ComponentDialogComponent, NameDialogComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

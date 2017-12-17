@@ -10,6 +10,7 @@ import { Spreadsheet } from '../../../entity/Spreadsheet';
 import { Row } from '../../../entity/Row';
 import { Col } from '../../../entity/Col';
 import { ColRow } from '../../../entity/ColRow';
+import { NameDialogComponent } from 'app/components/name-dialog/name-dialog.component';
 
 @Component({
   selector: 'app-component-three',
@@ -49,12 +50,12 @@ export class ComponentThreeComponent implements OnInit {
 
     try {
       this.spreadsheets = await getRepository(Spreadsheet)
-      .createQueryBuilder("spreadsheet")
-      .leftJoinAndSelect("spreadsheet.rows", "row")
-      .leftJoinAndSelect("row.colRows", "colRow")
-      .leftJoinAndSelect("colRow.col", "col")
-      //.orderBy("row.sortOrder", "ASC")
-      .getMany();
+        .createQueryBuilder("spreadsheet")
+        .leftJoinAndSelect("spreadsheet.rows", "row")
+        .leftJoinAndSelect("row.colRows", "colRow")
+        .leftJoinAndSelect("colRow.col", "col")
+        //.orderBy("row.sortOrder", "ASC")
+        .getMany();
 
       this.spreadsheet = this.spreadsheets[0];
 
@@ -63,7 +64,7 @@ export class ComponentThreeComponent implements OnInit {
       for (var row of this.spreadsheet.rows) {
         row.colRows.sort((a, b) => a.col.sortOrder < b.col.sortOrder ? -1 : a.col.sortOrder > b.col.sortOrder ? 1 : 0)
       }
-      
+
       for (var spreadsheet of this.spreadsheets) {
         LOGGER.info(`Spreadsheet: ${spreadsheet.name}`);
         for (var row of spreadsheet.rows) {
@@ -96,12 +97,12 @@ export class ComponentThreeComponent implements OnInit {
     }
   }
 
-  async addColumn(event) {
+  async addColumn(name: string) {
     try {
       let col: Col = new Col();
-      
-      col.name = `Col ${this.cols.length+1}`;
-      col.description = `Col ${this.cols.length+1} Description`;
+
+      col.name = name;
+      col.description = `Col ${name} Description`;
       col.sortOrder = this.cols.length;
 
       this.cols.push(col);
@@ -123,12 +124,12 @@ export class ComponentThreeComponent implements OnInit {
     }
   }
 
-  async addRow(event) {
+  async addRow(name: string) {
     try {
       let row: Row = new Row();
 
-      row.name = `Row ${this.spreadsheet.rows.length+1}`;
-      row.description = `Row ${this.spreadsheet.rows.length+1} Description`;
+      row.name = name;
+      row.description = `Row ${name} Description`;
       row.sortOrder = this.spreadsheet.rows.length;
       row.colRows = [];
 
@@ -151,12 +152,25 @@ export class ComponentThreeComponent implements OnInit {
     }
   }
 
-  openModal() {
-    const modalRef = this.modalService.open(ComponentDialogComponent);
-    modalRef.componentInstance.name = 'World';
+  addRowModal() {
+    const modalRef = this.modalService.open(NameDialogComponent)
+    modalRef.componentInstance.title = 'Add Row';
+
+    modalRef.result.then((result) => {
+      this.addRow(result);
+    }, (reason) => {
+      console.log('Dismissed!!');
+    });
   }
 
-  closeModal() {
+  addColumnModal() {
+    const modalRef = this.modalService.open(NameDialogComponent)
+    modalRef.componentInstance.title = 'Add Column';
 
+    modalRef.result.then((result) => {
+      this.addColumn(result);
+    }, (reason) => {
+      console.log('Dismissed!!');
+    });
   }
 }

@@ -1,0 +1,16 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <label for="name-dialog-name">name</label>
+    <input type="text" class="form-control" id="name-dialog-name" [(ngModel)]="name">
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-info" aria-label="Save" (click)="close();">Save</button>
+  <button type="button" class="btn btn-secondary" aria-label="Cancel" (click)="dismiss();">Cancel</button>
+</div>
