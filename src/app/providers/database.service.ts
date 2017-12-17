@@ -23,7 +23,7 @@ export class DatabaseService implements OnInit {
       "username": "postgres",
       "password": "whatever",
       "database": "puppies",
-      "synchronize": true,
+      "synchronize": false,
       "logging": false,
          entities: [
           User, Spreadsheet, Row, Col, ColRow

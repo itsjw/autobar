@@ -161,18 +161,25 @@ export class ComponentThreeComponent implements OnInit {
   }
 
   async deleteColumn(spreadsheet: Spreadsheet, col: Col) {
-    alert("Delete Column");
-
-    //for (var col )
-
-    /*
     await getRepository(Col)
-    .createQueryBuilder()
-    .delete()
-    .where("id = :id", { id: col.id })
-    .execute();
-    */
-  }
+      .createQueryBuilder()
+      .delete()
+      .where("id = :id", { id: col.id })
+      .execute();
+
+      this.spreadsheets[this.tabIndex] = await getRepository(Spreadsheet)
+      .createQueryBuilder("spreadsheet")
+      .leftJoinAndSelect("spreadsheet.rows", "row")
+      .leftJoinAndSelect("row.colRows", "colRow")
+      .leftJoinAndSelect("colRow.col", "col")
+      .where("spreadsheet.id = :id", { id: this.spreadsheets[this.tabIndex].id })
+      //.orderBy("row.sortOrder", "ASC")
+      .getOne();
+
+      this.orderSpreadsheet(spreadsheet);
+      
+      this.collapseSpreadsheetSortOrder(this.spreadsheets[this.tabIndex]);
+    }
 
   setTabIndex(spreadsheet_index: number) {
     this.tabIndex = spreadsheet_index;
@@ -196,7 +203,7 @@ export class ComponentThreeComponent implements OnInit {
         spreadsheet.rows[0].colRows[index].col.sortOrder = index;
       }
     }
-
+    
     await getRepository(Spreadsheet).save(spreadsheet);
   }
 }
