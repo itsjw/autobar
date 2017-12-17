@@ -1,6 +1,9 @@
 <section class="section component-three">
   <ngb-tabset>
-    <ngb-tab *ngFor="let spreadsheet of spreadsheets; index as spreadsheet_index" title="{{spreadsheet.name}}">
+    <ngb-tab *ngFor="let spreadsheet of spreadsheets; index as spreadsheet_index">
+      <ng-template ngbTabTitle>
+        <div (click)="setTabIndex(spreadsheet_index)">{{spreadsheet.name}}</div>
+      </ng-template>
       <ng-template ngbTabContent>
         <div class="container">
           <nav class="panel">
@@ -12,12 +15,12 @@
               <div class="container">
                 <div class="columns">
                   <div class="column">
-                    <button class="button is-link" (click)="addColumnModal(spreadsheet_index)">
+                    <button class="button is-link" (click)="addColumnModal(spreadsheet)">
                       add column
                     </button>
                   </div>
                   <div class="column">
-                    <button class="button is-link" (click)="addRowModal(spreadsheet_index)">
+                    <button class="button is-link" (click)="addRowModal(spreadsheet)">
                       add row
                     </button>
                   </div>
@@ -32,27 +35,17 @@
             </div>
 
             <div class="panel-block">
-              <table class="table is-bordered is-striped is-narrow">
+              <table *ngIf="spreadsheet.rows.length > 0" class="table is-bordered is-striped is-narrow">
                 <thead>
                   <tr>
                     <th></th>
-                    <th *ngFor="let col of cols">
-                      <p class="has-text-centered">{{col.name}}
-                        <i class="fa fa-user-circle" aria-hidden="true"></i>
+                    <th *ngFor="let colRow of spreadsheet.rows[0].colRows">
+                      <p class="has-text-centered">{{colRow.col.name}}
+                        <i class="fa fa-trash" aria-hidden="true" (click)="deleteColumn(spreadsheet, colRow.col)"></i>
                       </p>
                     </th>
                   </tr>
                 </thead>
-                <tfoot>
-                  <tr>
-                    <th></th>
-                    <th *ngFor="let col of cols">
-                      <p class="has-text-centered">{{col.name}}
-                        <i class="fa fa-user-circle" aria-hidden="true"></i>
-                      </p>
-                    </th>
-                  </tr>
-                </tfoot>
                 <tbody>
                   <tr *ngFor="let row of spreadsheet.rows; index as row_index">
                     <td>
@@ -68,7 +61,7 @@
               </table>
             </div>
             <div class="panel-block">
-              <button id="spreadsheet-save-button" class="button is-link" (click)="save(spreadsheet_index)">
+              <button id="spreadsheet-save-button" class="button is-link" (click)="save(spreadsheet)">
                 save
               </button>
             </div>

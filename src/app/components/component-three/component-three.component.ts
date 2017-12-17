@@ -24,7 +24,7 @@ export class ComponentThreeComponent implements OnInit {
 
   spreadsheets: Spreadsheet[] = [];
 
-  cols: Col[] = [];
+  tabIndex: number = 0;
 
   //  constructor(private userService: UserService) { 
   constructor(private router: Router, public databaseService: DatabaseService, private modalService: NgbModal) {
@@ -55,8 +55,6 @@ export class ComponentThreeComponent implements OnInit {
         //.orderBy("row.sortOrder", "ASC")
         .getMany();
 
-      //      this.spreadsheet = this.spreadsheets[0];
-
       for (var spreadsheet of this.spreadsheets) {
         LOGGER.info(`Spreadsheet: ${spreadsheet.name}`);
         for (var row of spreadsheet.rows) {
@@ -66,16 +64,8 @@ export class ComponentThreeComponent implements OnInit {
           }
         }
 
-        spreadsheet.rows.sort((a, b) => a.sortOrder < b.sortOrder ? -1 : a.sortOrder > b.sortOrder ? 1 : 0)
-
-        for (var row of spreadsheet.rows) {
-          row.colRows.sort((a, b) => a.col.sortOrder < b.col.sortOrder ? -1 : a.col.sortOrder > b.col.sortOrder ? 1 : 0)
-        }
+        this.orderSpreadsheet(spreadsheet);
       }
-
-      this.cols = await getRepository(Col).find();
-
-      this.cols.sort((a, b) => a.sortOrder < b.sortOrder ? -1 : a.sortOrder > b.sortOrder ? 1 : 0)
     }
     catch (error) {
       LOGGER.info(error);
@@ -86,26 +76,24 @@ export class ComponentThreeComponent implements OnInit {
     this.router.navigate(['home']);
   }
 
-  async save(spreadsheet_index: number) {
+  async save(spreadsheet: Spreadsheet) {
     try {
-      await getRepository(Spreadsheet).save(this.spreadsheets[spreadsheet_index]);
+      await getRepository(Spreadsheet).save(spreadsheet);
     }
     catch (error) {
       LOGGER.info(error);
     }
   }
 
-  async addColumn(spreadsheet_index: number, name: string) {
+  async addColumn(spreadsheet: Spreadsheet, name: string) {
     try {
       let col: Col = new Col();
 
       col.name = name;
       col.description = `Col ${name} Description`;
-      col.sortOrder = this.cols.length;
+      col.sortOrder = (spreadsheet.rows[0].colRows.length > 0) ? spreadsheet.rows[0].colRows.length : 0;
 
-      this.cols.push(col);
-
-      for (var row of this.spreadsheets[spreadsheet_index].rows) {
+      for (var row of spreadsheet.rows) {
         let colRow: ColRow = new ColRow();
 
         colRow.col = col;
@@ -115,60 +103,100 @@ export class ComponentThreeComponent implements OnInit {
         row.colRows.push(colRow)
       }
 
-      await getRepository(Spreadsheet).save(this.spreadsheets[spreadsheet_index]);
+      await getRepository(Spreadsheet).save(spreadsheet);
     }
     catch (error) {
       LOGGER.info(error);
     }
   }
 
-  async addRow(spreadsheet_index: number, name: string) {
+  async addRow(spreadsheet: Spreadsheet, name: string) {
     try {
       let row: Row = new Row();
 
       row.name = name;
       row.description = `Row ${name} Description`;
-      row.sortOrder = this.spreadsheets[spreadsheet_index].rows.length;
+      row.sortOrder = (spreadsheet.rows.length > 0) ? spreadsheet.rows.length : 0;
       row.colRows = [];
 
-      this.spreadsheets[spreadsheet_index].rows.push(row);
+      spreadsheet.rows.push(row);
 
-      for (var col of this.cols) {
+      for (var firstRowColRow of spreadsheet.rows[0].colRows) {
         let colRow: ColRow = new ColRow();
 
-        colRow.col = col;
+        colRow.col = firstRowColRow.col;
         colRow.row = row;
         colRow.value = 0;
 
         row.colRows.push(colRow);
       }
 
-      await getRepository(Spreadsheet).save(this.spreadsheets[spreadsheet_index]);
+      await getRepository(Spreadsheet).save(spreadsheet);
     }
     catch (error) {
       LOGGER.info(error);
     }
   }
 
-  addRowModal(spreadsheet_index: number) {
+  addRowModal(spreadsheet: Spreadsheet) {
     const modalRef = this.modalService.open(NameDialogComponent)
     modalRef.componentInstance.title = 'Add Row';
 
     modalRef.result.then((result) => {
-      this.addRow(spreadsheet_index, result);
+      this.addRow(spreadsheet, result);
     }, (reason) => {
       console.log('Dismissed!!');
     });
   }
 
-  addColumnModal(spreadsheet_index: number) {
+  addColumnModal(spreadsheet: Spreadsheet) {
     const modalRef = this.modalService.open(NameDialogComponent)
     modalRef.componentInstance.title = 'Add Column';
 
     modalRef.result.then((result) => {
-      this.addColumn(spreadsheet_index, result);
+      this.addColumn(spreadsheet, result);
     }, (reason) => {
       console.log('Dismissed!!');
     });
+  }
+
+  async deleteColumn(spreadsheet: Spreadsheet, col: Col) {
+    alert("Delete Column");
+
+    //for (var col )
+
+    /*
+    await getRepository(Col)
+    .createQueryBuilder()
+    .delete()
+    .where("id = :id", { id: col.id })
+    .execute();
+    */
+  }
+
+  setTabIndex(spreadsheet_index: number) {
+    this.tabIndex = spreadsheet_index;
+  }
+
+  orderSpreadsheet(spreadsheet: Spreadsheet) {
+    spreadsheet.rows.sort((a, b) => a.sortOrder < b.sortOrder ? -1 : a.sortOrder > b.sortOrder ? 1 : 0);
+
+    for (var row of spreadsheet.rows) {
+      row.colRows.sort((a, b) => a.col.sortOrder < b.col.sortOrder ? -1 : a.col.sortOrder > b.col.sortOrder ? 1 : 0);
+    }
+  }
+
+  async collapseSpreadsheetSortOrder(spreadsheet: Spreadsheet) {
+    for (var index = 0; index < spreadsheet.rows.length; index++) {
+      spreadsheet.rows[index].sortOrder = index;
+    }
+
+    if (spreadsheet.rows.length > 0) {
+      for (var index = 0; index < spreadsheet.rows[0].colRows.length; index++) {
+        spreadsheet.rows[0].colRows[index].col.sortOrder = index;
+      }
+    }
+
+    await getRepository(Spreadsheet).save(spreadsheet);
   }
 }

@@ -23,6 +23,6 @@ export class NameDialogComponent implements OnInit {
   }
 
   dismiss() {
-    this.activeModal.close('Dismissed');
+    this.activeModal.dismiss('Dismissed');
   }
 }
